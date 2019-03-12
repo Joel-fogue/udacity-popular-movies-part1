@@ -13,6 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Adapter;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.net.URL;
+
+import main.android.com.popularmoviesapp.utilities.NetworkUtils;
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -40,25 +47,35 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new PopularMoviesAdapter(moviesArray);
         recyclerView.setAdapter(mAdapter);
 
+        URL moviesUrl = NetworkUtils.buildUrl();
+        new DownloadMovieUrlsAsyncTask().execute(moviesUrl);
     }
 
 
-    private class DownloadMovieUrlsAsyncTask extends AsyncTask<Uri, Void, String[]>{
+    private class DownloadMovieUrlsAsyncTask extends AsyncTask<URL, Void, JSONArray>{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
         @Override
-        protected void onPostExecute(String[] strings) {
-            super.onPostExecute(strings);
+        protected JSONArray doInBackground(URL... urls) {
+            URL url = urls[0];
+            JSONArray allMoviesJsonArray = null;
+            try {
+                JSONObject allMoviesJsonObject = NetworkUtils.getResponseFromHttpUrl(url);
+                allMoviesJsonArray = allMoviesJsonObject.getJSONArray("results");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return allMoviesJsonArray;
         }
 
         @Override
-        protected String[] doInBackground(Uri... uris) {
-
-            return new String[0];
+        protected void onPostExecute(JSONArray AllmoviesJsonArray) {
+            super.onPostExecute(AllmoviesJsonArray);
         }
+
     }
 
 
