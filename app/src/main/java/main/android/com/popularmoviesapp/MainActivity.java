@@ -1,17 +1,18 @@
 package main.android.com.popularmoviesapp;
 
-import android.net.Uri;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Adapter;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,11 +23,12 @@ import main.android.com.popularmoviesapp.utilities.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    int NUMBER_COLUM_IN_GRID = 2;
+    private RecyclerView mRecyclerView;
+    private PopularMoviesAdapter mAdapter;
+    int NUMBER_COLUM_IN_GRID = 3;
     int moviesArray;
+    int len;
+    public TextView mContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,25 +36,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //mContent = (TextView) findViewById(R.id.mContent);
 
-        recyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
+
+        GridLayoutManager layoutManager = new GridLayoutManager(this, NUMBER_COLUM_IN_GRID, GridLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(layoutManager);
 
         // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
+        //in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
 
-        layoutManager = new GridLayoutManager(this, NUMBER_COLUM_IN_GRID);
-        recyclerView.setLayoutManager(layoutManager);
-
-        mAdapter = new PopularMoviesAdapter(moviesArray);
-        recyclerView.setAdapter(mAdapter);
+        mAdapter = new PopularMoviesAdapter(100);
+        mRecyclerView.setAdapter(mAdapter);
 
         URL moviesUrl = NetworkUtils.buildUrl();
-        new DownloadMovieUrlsAsyncTask().execute(moviesUrl);
+
+        fetchMoviesUrl(moviesUrl);
+
     }
 
+    public void fetchMoviesUrl(URL url){
+        new DownloadMovieUrlsAsyncTask().execute(url);
+    }
 
-    private class DownloadMovieUrlsAsyncTask extends AsyncTask<URL, Void, JSONArray>{
+    private class DownloadMovieUrlsAsyncTask extends AsyncTask<URL, Void, JSONArray> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -61,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected JSONArray doInBackground(URL... urls) {
             URL url = urls[0];
-            JSONArray allMoviesJsonArray = null;
+            JSONArray allMoviesJsonArray = new JSONArray();
             try {
                 JSONObject allMoviesJsonObject = NetworkUtils.getResponseFromHttpUrl(url);
                 allMoviesJsonArray = allMoviesJsonObject.getJSONArray("results");
@@ -72,8 +80,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(JSONArray AllmoviesJsonArray) {
-            super.onPostExecute(AllmoviesJsonArray);
+        protected void onPostExecute(JSONArray allMoviesJsonArray) {
+            len=allMoviesJsonArray.length();
+            Log.v("LEN", String.valueOf(len));
+
+            super.onPostExecute(allMoviesJsonArray);
         }
 
     }

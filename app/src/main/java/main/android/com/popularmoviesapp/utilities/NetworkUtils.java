@@ -13,9 +13,9 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
-    public static final String TMDB_BASE_URL = "http://api.themoviedb.org/3/movie/popular";
+    public static final String TMDB_BASE_URL = "https://api.themoviedb.org/3/movie/popular";
     public static final String QUERY_PARAM="api_key";
-    public static final String API_KEY="";
+    public static final String API_KEY="3845e129e7a3c2d4c50bbf74d58550d8";
     /**
      * Builds the URL used to query GitHub.
      *
