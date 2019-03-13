@@ -2,21 +2,28 @@ package main.android.com.popularmoviesapp;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONArray;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.zip.Inflater;
 
 class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.SingleMovieViewHolder> {
-    int allMoviesJsonArray;
+    ArrayList allMoviesArrayList;
 
-    public PopularMoviesAdapter(int allMoviesJsonArray) {
-        this.allMoviesJsonArray = allMoviesJsonArray;
+    public PopularMoviesAdapter(ArrayList allMoviesArrayList) {
+        this.allMoviesArrayList = allMoviesArrayList;
     }
 
     @NonNull
@@ -30,26 +37,32 @@ class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.Sin
 
     @Override
     public int getItemCount() {
-        return allMoviesJsonArray;
+        return allMoviesArrayList.size();
     }
 
     @Override
     public void onBindViewHolder(@NonNull SingleMovieViewHolder singleMovieViewHolder, int i) {
         singleMovieViewHolder.bind(i);
+        //Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(singleMovieViewHolder.singleMovieImageView);
     }
-
 
     class SingleMovieViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView singleMovieImageView;
+        public ImageView singleMovieImageView;
 
         public SingleMovieViewHolder(@NonNull View itemView) {
             super(itemView);
             singleMovieImageView = itemView.findViewById(R.id.singleMovieView);
         }
 
-        public void bind(int arraySize){
-            singleMovieImageView.setText(String.valueOf(arraySize));
+        public void bind(int position){
+            //singleMovieImageView.setText(String.valueOf(arraySize));
+           URL fullPosterPathUrl = (URL) allMoviesArrayList.get(position);
+            Log.v("fullPosterPathUrl", fullPosterPathUrl.toString());
+            //Picasso.get().load(fullPosterPathUrl.toString()).into(singleMovieImageView);
+            Picasso.get().load("http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg").into(singleMovieImageView);
+            //http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
+
         }
     }
 

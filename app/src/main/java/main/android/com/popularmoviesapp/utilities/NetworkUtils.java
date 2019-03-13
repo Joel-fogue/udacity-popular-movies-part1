@@ -36,6 +36,23 @@ public class NetworkUtils {
 
         return url;
     }
+    //w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
+    public static URL buildPosterPathUrl(String posterPath) {
+        Uri builtUri = Uri.parse("https://image.tmdb.org/t/p/").buildUpon()
+                .appendPath("/w185/")
+                .appendPath(posterPath)
+                //.appendQueryParameter(PARAM_SORT, sortBy)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
 
     /**
      * This method returns the entire result from the HTTP response.

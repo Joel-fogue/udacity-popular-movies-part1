@@ -15,9 +15,11 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 import main.android.com.popularmoviesapp.utilities.NetworkUtils;
 
@@ -26,9 +28,10 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private PopularMoviesAdapter mAdapter;
     int NUMBER_COLUM_IN_GRID = 3;
-    int moviesArray;
+    JSONArray moviesArray;
     int len;
     public TextView mContent;
+    public ArrayList fullPosterPathsArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //mContent = (TextView) findViewById(R.id.mContent);
+        fullPosterPathsArray = new ArrayList();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
 
@@ -46,14 +50,14 @@ public class MainActivity extends AppCompatActivity {
         // use this setting to improve performance if you know that changes
         //in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
+        Log.v("lens", String.valueOf(fullPosterPathsArray.size()));
 
-        mAdapter = new PopularMoviesAdapter(100);
+        mAdapter = new PopularMoviesAdapter(fullPosterPathsArray);
         mRecyclerView.setAdapter(mAdapter);
 
         URL moviesUrl = NetworkUtils.buildUrl();
 
         fetchMoviesUrl(moviesUrl);
-
     }
 
     public void fetchMoviesUrl(URL url){
@@ -81,9 +85,19 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(JSONArray allMoviesJsonArray) {
+            moviesArray = allMoviesJsonArray;
             len=allMoviesJsonArray.length();
-            Log.v("LEN", String.valueOf(len));
-
+            for(int i=0; i<allMoviesJsonArray.length(); i++){
+                JSONObject singleMovieJsonObject = null;
+                try {
+                    singleMovieJsonObject = allMoviesJsonArray.getJSONObject(i);
+                    String posterPath = singleMovieJsonObject.getString("poster_path");
+                    URL fullPosterPath = NetworkUtils.buildPosterPathUrl(posterPath);
+                    fullPosterPathsArray.add(fullPosterPath);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }//end loop
             super.onPostExecute(allMoviesJsonArray);
         }
 
