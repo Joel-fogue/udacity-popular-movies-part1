@@ -39,8 +39,8 @@ public class NetworkUtils {
     //w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
     public static URL buildPosterPathUrl(String posterPath) {
         Uri builtUri = Uri.parse("https://image.tmdb.org/t/p/").buildUpon()
-                .appendPath("/w185/")
-                .appendPath(posterPath)
+                .appendEncodedPath("w185")
+                .appendEncodedPath(posterPath)
                 //.appendQueryParameter(PARAM_SORT, sortBy)
                 .build();
 

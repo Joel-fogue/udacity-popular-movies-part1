@@ -46,17 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, NUMBER_COLUM_IN_GRID, GridLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-
         // use this setting to improve performance if you know that changes
         //in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
-        Log.v("lens", String.valueOf(fullPosterPathsArray.size()));
-
-        mAdapter = new PopularMoviesAdapter(fullPosterPathsArray);
-        mRecyclerView.setAdapter(mAdapter);
-
         URL moviesUrl = NetworkUtils.buildUrl();
-
         fetchMoviesUrl(moviesUrl);
     }
 
@@ -91,9 +84,14 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject singleMovieJsonObject = null;
                 try {
                     singleMovieJsonObject = allMoviesJsonArray.getJSONObject(i);
-                    String posterPath = singleMovieJsonObject.getString("poster_path");
+                    String posterPath = singleMovieJsonObject.getString("poster_path").split("/")[1];
                     URL fullPosterPath = NetworkUtils.buildPosterPathUrl(posterPath);
                     fullPosterPathsArray.add(fullPosterPath);
+                    Log.v("blah", fullPosterPath.toString());
+                    Log.v("lens", String.valueOf(fullPosterPathsArray.size()));
+                    //Instantiating our adapter class
+                    mAdapter = new PopularMoviesAdapter(fullPosterPathsArray);
+                    mRecyclerView.setAdapter(mAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
