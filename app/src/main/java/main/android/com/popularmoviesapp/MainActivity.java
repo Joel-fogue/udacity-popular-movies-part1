@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private PopularMoviesAdapter mAdapter;
-    int NUMBER_COLUM_IN_GRID = 3;
+    int NUMBER_COLUM_IN_GRID = 2;
     JSONArray moviesArray;
     int len;
     public TextView mContent;
@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
                     String posterPath = singleMovieJsonObject.getString("poster_path").split("/")[1];
                     URL fullPosterPath = NetworkUtils.buildPosterPathUrl(posterPath);
                     fullPosterPathsArray.add(fullPosterPath);
-                    Log.v("blah", fullPosterPath.toString());
-                    Log.v("lens", String.valueOf(fullPosterPathsArray.size()));
+                    Log.v("fullPosterPath", fullPosterPath.toString());
+                    Log.v("ArrayLength", String.valueOf(fullPosterPathsArray.size()));
                     //Instantiating our adapter class
                     mAdapter = new PopularMoviesAdapter(fullPosterPathsArray);
                     mRecyclerView.setAdapter(mAdapter);
