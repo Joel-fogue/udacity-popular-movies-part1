@@ -1,6 +1,7 @@
 package main.android.com.popularmoviesapp;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Adapter;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 
 import main.android.com.popularmoviesapp.utilities.NetworkUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PopularMoviesAdapter.OnRecyclerViewClickListener {
 
     private RecyclerView mRecyclerView;
     private PopularMoviesAdapter mAdapter;
@@ -57,7 +59,14 @@ public class MainActivity extends AppCompatActivity {
         new DownloadMovieUrlsAsyncTask().execute(url);
     }
 
-    private class DownloadMovieUrlsAsyncTask extends AsyncTask<URL, Void, JSONArray> {
+    @Override
+    public void onclickListener(int itemClicked) {
+        Toast.makeText(getApplicationContext(), "Item click was: "+itemClicked, Toast.LENGTH_SHORT).show();
+    }
+
+    private class DownloadMovieUrlsAsyncTask extends AsyncTask<URL, Void, JSONArray>
+            implements PopularMoviesAdapter.OnRecyclerViewClickListener {
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -90,7 +99,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.v("fullPosterPath", fullPosterPath.toString());
                     Log.v("ArrayLength", String.valueOf(fullPosterPathsArray.size()));
                     //Instantiating our adapter class
-                    mAdapter = new PopularMoviesAdapter(fullPosterPathsArray);
+                    mAdapter = new PopularMoviesAdapter(fullPosterPathsArray, this);
+
+                    huildModels(fullPosterPathsArray);
+
                     mRecyclerView.setAdapter(mAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -99,6 +111,13 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(allMoviesJsonArray);
         }
 
+        @Override
+        public void onclickListener(int itemClicked) {
+            Toast.makeText(getApplicationContext(), "Item click was: "+itemClicked, Toast.LENGTH_SHORT).show();
+            Intent movieDetailsIntent = new Intent(MainActivity.this, MovieDetails.class);
+            movieDetailsIntent.putExtra("firstname", "Joel");
+            startActivity(movieDetailsIntent);
+        }
     }
 
 
@@ -123,4 +142,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

@@ -21,9 +21,15 @@ import java.util.zip.Inflater;
 
 class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.SingleMovieViewHolder> {
     ArrayList allMoviesArrayList;
+    public OnRecyclerViewClickListener mOnclickListenner;
 
-    public PopularMoviesAdapter(ArrayList allMoviesArrayList) {
+    public interface OnRecyclerViewClickListener{
+        void onclickListener(int itemClicked);
+    }
+
+    public PopularMoviesAdapter(ArrayList allMoviesArrayList, OnRecyclerViewClickListener mOnclickListenner) {
         this.allMoviesArrayList = allMoviesArrayList;
+        this.mOnclickListenner = mOnclickListenner;
     }
 
     @NonNull
@@ -46,13 +52,15 @@ class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.Sin
         //Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(singleMovieViewHolder.singleMovieImageView);
     }
 
-    class SingleMovieViewHolder extends RecyclerView.ViewHolder{
+    class SingleMovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public ImageView singleMovieImageView;
+
 
         public SingleMovieViewHolder(@NonNull View itemView) {
             super(itemView);
             singleMovieImageView = itemView.findViewById(R.id.singleMovieView);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(int position){
@@ -64,6 +72,12 @@ class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.Sin
             Picasso.get().load(fullPosterPathUrl.toString()).into(singleMovieImageView);
             //http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
 
+        }
+
+        @Override
+        public void onClick(View view) {
+            int itemClickedPosition = getAdapterPosition();
+            mOnclickListenner.onclickListener(itemClickedPosition);
         }
     }
 
