@@ -79,6 +79,12 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     }
 
     @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putParcelableArrayList("MoviePojosArrayListParcel", MoviePojosArrayList);
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList("MoviePojosArrayListParcel", MoviePojosArrayList);
         super.onSaveInstanceState(outState);
