@@ -1,5 +1,8 @@
 package main.android.com.popularmoviesapp.utilities;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 
 import org.json.JSONObject;
@@ -10,6 +13,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
+
+import static android.support.v4.content.ContextCompat.getSystemService;
 
 public class NetworkUtils {
 
@@ -81,4 +86,7 @@ public class NetworkUtils {
             urlConnection.disconnect();
         }
     }
+
+
+
 }

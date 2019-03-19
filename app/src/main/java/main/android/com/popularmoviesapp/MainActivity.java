@@ -1,6 +1,9 @@
 package main.android.com.popularmoviesapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -13,9 +16,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -38,9 +43,11 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (savedInstanceState != null && savedInstanceState.containsKey("MoviePojosArrayListParcel")) {
+            MoviePojosArrayList = savedInstanceState.getParcelableArrayList("MoviePojosArrayListParcel");
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //mContent = (TextView) findViewById(R.id.mContent);
         MoviePojosArrayList = new ArrayList<Movie>();
         mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
         GridLayoutManager layoutManager = new GridLayoutManager(this, NUMBER_COLUMN_IN_GRID, GridLayoutManager.VERTICAL, false);
@@ -49,16 +56,37 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         //in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
         URL moviesUrl = NetworkUtils.buildUrl();
-        fetchMoviesUrl(moviesUrl);
+        //Checking if we got an internet connection prior to making network call
+        if (isOnline())
+            fetchMoviesUrl(moviesUrl);
     }
 
-    public void fetchMoviesUrl(URL url){
+    /**
+     * Got this code from here: https://developer.android.com/training/monitoring-device-state/connectivity-monitoring
+     *
+     * @return a boolean true if we're connected
+     */
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnected();
+    }
+
+    public void fetchMoviesUrl(URL url) {
         new DownloadMovieUrlsAsyncTask().execute(url);
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList("MoviePojosArrayListParcel", MoviePojosArrayList);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onclickListener(int itemClicked) {
-        Toast.makeText(getApplicationContext(), "Item click was: "+itemClicked, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Item click was: " + itemClicked, Toast.LENGTH_SHORT).show();
     }
 
     private class DownloadMovieUrlsAsyncTask extends AsyncTask<URL, Void, JSONArray>
@@ -85,8 +113,8 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         @Override
         protected void onPostExecute(JSONArray allMoviesJsonArray) {
             moviesArray = allMoviesJsonArray;
-            len=allMoviesJsonArray.length();
-            for(int i=0; i<allMoviesJsonArray.length(); i++){
+            len = allMoviesJsonArray.length();
+            for (int i = 0; i < allMoviesJsonArray.length(); i++) {
                 JSONObject singleMovieJsonObject = null;
                 try {
                     singleMovieJsonObject = allMoviesJsonArray.getJSONObject(i);
