@@ -5,13 +5,14 @@ import android.os.Parcelable;
 
 public class Movie implements Parcelable{
 
-    private String movieTitle, movieReleaseDate, movieOverview, movieFullPosterPath;
+    private String movieTitle, movieReleaseDate, movieOverview, movieFullPosterPath, movieVoteAverage;
 
-    public Movie(String movieTitle, String movieReleaseDate, String movieOverview, String moviePosterPath) {
+    public Movie(String movieTitle, String movieReleaseDate, String movieOverview, String moviePosterPath, String movieVoteAverage) {
         this.movieTitle = movieTitle;
         this.movieReleaseDate = movieReleaseDate;
         this.movieOverview = movieOverview;
         this.movieFullPosterPath = moviePosterPath;
+        this.movieVoteAverage = movieVoteAverage;
     }
 
     public Movie(Parcel parcel){
@@ -53,6 +54,13 @@ public class Movie implements Parcelable{
         this.movieFullPosterPath = movieFullPosterPath;
     }
 
+    public String getMovieVoteAverage() {
+        return movieVoteAverage;
+    }
+
+    public void setMovieVoteAverage(String movieVoteAverage) {
+        this.movieVoteAverage = movieVoteAverage;
+    }
 
     @Override
     public int describeContents() {
@@ -65,6 +73,7 @@ public class Movie implements Parcelable{
         parcel.writeString(movieReleaseDate);
         parcel.writeString(movieOverview);
         parcel.writeString(movieFullPosterPath);
+        parcel.writeString(movieVoteAverage);
     }
 
     Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>(){

@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso;
 public class MovieDetails extends AppCompatActivity {
 
 
-    public TextView mTitle, mReleaseDate, mOverview, mFavorite;
+    public TextView mTitle, mReleaseDate, mOverview, mFavorite, mMovieVoteAverage;
     public ImageView mMoviePic;
 
     @Override
@@ -24,22 +24,30 @@ public class MovieDetails extends AppCompatActivity {
         mReleaseDate = findViewById(R.id.year);
         mOverview = findViewById(R.id.overview);
         mFavorite = findViewById(R.id.favorite);
+        mMovieVoteAverage = findViewById(R.id.vote_average);
 
         Intent intentThatCreatedThisActivity = getIntent();
         if(intentThatCreatedThisActivity!=null &&
             intentThatCreatedThisActivity.hasExtra("movieTitle") &&
             intentThatCreatedThisActivity.hasExtra("movieReleaseDate") &&
                 intentThatCreatedThisActivity.hasExtra("movieOverview")&&
-                intentThatCreatedThisActivity.hasExtra("movieFullPosterPath") )
+                intentThatCreatedThisActivity.hasExtra("movieFullPosterPath")&&
+                intentThatCreatedThisActivity.hasExtra("movieVoteAverage") )
         {
             String mMovieTitle = intentThatCreatedThisActivity.getStringExtra("movieTitle");
             String mMovieReleaseDate = intentThatCreatedThisActivity.getStringExtra("movieReleaseDate");
             String mMovieOverview = intentThatCreatedThisActivity.getStringExtra("movieOverview");
             String mMovieFullPosterPath = intentThatCreatedThisActivity.getStringExtra("movieFullPosterPath");
+            String movieVoteAverage = intentThatCreatedThisActivity.getStringExtra("movieVoteAverage");
             mTitle.setText(mMovieTitle);
             mReleaseDate.setText(mMovieReleaseDate);
             mOverview.setText(mMovieOverview);
-            Picasso.get().load(mMovieFullPosterPath).into(mMoviePic);
+            mMovieVoteAverage.setText(movieVoteAverage+"/10");
+            Picasso.get()
+                    .load(mMovieFullPosterPath)
+                    .fit()
+                    .centerCrop()
+                    .into(mMoviePic);
         }
     }
 

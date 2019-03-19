@@ -64,7 +64,9 @@ class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.Sin
             Log.v("arraylist", String.valueOf(allMoviePojosArrayList.size()));
             Log.v("fullPosterPathUrl", fullPosterPathUrl.toString());
             //Picasso.get().load(fullPosterPathUrl.toString()).into(singleMovieImageView);
-            Picasso.get().load(fullPosterPathUrl).into(singleMovieImageView);
+            Picasso.get()
+                    .load(fullPosterPathUrl)
+                    .into(singleMovieImageView);
             //http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
 
         }

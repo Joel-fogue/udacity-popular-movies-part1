@@ -95,7 +95,8 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
                     String movieOverview = singleMovieJsonObject.getString("overview");
                     String posterPath = singleMovieJsonObject.getString("poster_path").split("/")[1];
                     String fullPosterPath = NetworkUtils.buildPosterPathUrl(posterPath).toString();
-                    Movie aMovie = new Movie(movieTitle, movieReleaseDate, movieOverview, fullPosterPath);
+                    String movieVoteAverage = singleMovieJsonObject.getString("vote_average");
+                    Movie aMovie = new Movie(movieTitle, movieReleaseDate, movieOverview, fullPosterPath, movieVoteAverage);
                     MoviePojosArrayList.add(aMovie);
                     Log.v("fullPosterPath", fullPosterPath.toString());
                     Log.v("ArrayListLength", String.valueOf(MoviePojosArrayList.size()));
@@ -113,12 +114,12 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         public void onclickListener(int itemClicked) {
             //Toast.makeText(getApplicationContext(), "Item click was: "+itemClicked, Toast.LENGTH_SHORT).show();
             Intent movieDetailsIntent = new Intent(MainActivity.this, MovieDetails.class);
-            movieDetailsIntent.putExtra("firstname", "Joel");
             Movie movieClickedOn = (Movie) MoviePojosArrayList.get(itemClicked);
             movieDetailsIntent.putExtra("movieTitle", movieClickedOn.getMovieTitle());
             movieDetailsIntent.putExtra("movieReleaseDate", movieClickedOn.getMovieReleaseDate());
             movieDetailsIntent.putExtra("movieOverview", movieClickedOn.getMovieOverview());
             movieDetailsIntent.putExtra("movieFullPosterPath", movieClickedOn.getMovieFullPosterPath());
+            movieDetailsIntent.putExtra("movieVoteAverage", movieClickedOn.getMovieVoteAverage());
             startActivity(movieDetailsIntent);
         }
     }

@@ -10,12 +10,13 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="112dp"
+        android:layout_height="137dp"
         android:background="@android:color/holo_green_dark"
-        android:gravity="center"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="13dp"
         android:text="Chappie"
-        android:textAlignment="center"
-        android:textSize="36sp"
+        android:textColor="#ffffff"
+        android:textSize="34sp"
         app:fontFamily="sans-serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,72 +25,87 @@
     <ImageView
         android:id="@+id/movieDetailPic"
         android:layout_width="201dp"
-        android:layout_height="287dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="262dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.047"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
         android:id="@+id/overview"
-        android:layout_width="355dp"
-        android:layout_height="132dp"
+        android:layout_width="366dp"
+        android:layout_height="141dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="Every child comes into the world full of promise, and none more so than Chappie: he is gifted, special, a prodigy. Chappie he is a robot. "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movieDetailPic" />
+        app:layout_constraintTop_toBottomOf="@+id/movieDetailPic"
+        app:layout_constraintVertical_bias="0.38" />
 
-    <TextView
+    <Button
         android:id="@+id/favorite"
         android:layout_width="141dp"
-        android:layout_height="26dp"
+        android:layout_height="48dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:background="@android:color/holo_green_dark"
+        android:padding="3dp"
+        android:text="MARK AS FAVORITE"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="@+id/movieDetailPic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/releaseDate"
-        app:layout_constraintVertical_bias="0.027"
-        tools:text="MARK AS FAVORITE" />
+        app:layout_constraintStart_toEndOf="@+id/movieDetailPic"
+        app:layout_constraintTop_toBottomOf="@+id/vote_average"
+        app:layout_constraintVertical_bias="0.038" />
 
     <TextView
-        android:id="@+id/releaseDate"
+        android:id="@+id/vote_average"
         android:layout_width="141dp"
         android:layout_height="26dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:text="8.1/10"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movie_length" />
+        app:layout_constraintStart_toEndOf="@+id/movieDetailPic"
+        app:layout_constraintTop_toBottomOf="@+id/year" />
 
-    <TextView
-        android:id="@+id/movie_length"
-        android:layout_width="141dp"
-        android:layout_height="26dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="12dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/year"
-        tools:text="120mins" />
+    <!--<TextView-->
+        <!--android:id="@+id/movie_length"-->
+        <!--android:layout_width="141dp"-->
+        <!--android:layout_height="26dp"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:text="TextView"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/year"-->
+        <!--tools:text="120mins" />-->
 
     <TextView
         android:id="@+id/year"
         android:layout_width="141dp"
         android:layout_height="26dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="2015"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/movieDetailPic"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 </android.support.constraint.ConstraintLayout>
