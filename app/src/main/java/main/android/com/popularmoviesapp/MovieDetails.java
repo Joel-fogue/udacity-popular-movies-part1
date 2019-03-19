@@ -3,31 +3,43 @@ package main.android.com.popularmoviesapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class MovieDetails extends AppCompatActivity {
 
 
-    public TextView mTitle, mDate, mLength, mAbout, mFavorite, mYear;
+    public TextView mTitle, mReleaseDate, mOverview, mFavorite;
     public ImageView mMoviePic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
-        this.mMoviePic = findViewById(R.id.singleMovieView);
+        mMoviePic = findViewById(R.id.movieDetailPic);
         mTitle = findViewById(R.id.title);
-        mDate = findViewById(R.id.date);
-        mLength = findViewById(R.id.movie_length);
-        mAbout = findViewById(R.id.about);
+        mReleaseDate = findViewById(R.id.year);
+        mOverview = findViewById(R.id.overview);
         mFavorite = findViewById(R.id.favorite);
-        mYear = findViewById(R.id.year);
 
         Intent intentThatCreatedThisActivity = getIntent();
-        if(intentThatCreatedThisActivity!=null && intentThatCreatedThisActivity.hasExtra("firstname")){
-            String firstName = intentThatCreatedThisActivity.getStringExtra("firstname");
-            mTitle.setText(firstName);
+        if(intentThatCreatedThisActivity!=null &&
+            intentThatCreatedThisActivity.hasExtra("movieTitle") &&
+            intentThatCreatedThisActivity.hasExtra("movieReleaseDate") &&
+                intentThatCreatedThisActivity.hasExtra("movieOverview")&&
+                intentThatCreatedThisActivity.hasExtra("movieFullPosterPath") )
+        {
+            String mMovieTitle = intentThatCreatedThisActivity.getStringExtra("movieTitle");
+            String mMovieReleaseDate = intentThatCreatedThisActivity.getStringExtra("movieReleaseDate");
+            String mMovieOverview = intentThatCreatedThisActivity.getStringExtra("movieOverview");
+            String mMovieFullPosterPath = intentThatCreatedThisActivity.getStringExtra("movieFullPosterPath");
+            mTitle.setText(mMovieTitle);
+            mReleaseDate.setText(mMovieReleaseDate);
+            mOverview.setText(mMovieOverview);
+            Picasso.get().load(mMovieFullPosterPath).into(mMoviePic);
         }
     }
 

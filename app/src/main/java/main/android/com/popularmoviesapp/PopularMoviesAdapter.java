@@ -7,28 +7,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.zip.Inflater;
+
+import main.android.com.popularmoviesapp.parcels.Movie;
 
 class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.SingleMovieViewHolder> {
-    ArrayList allMoviesArrayList;
+    ArrayList<Movie> allMoviePojosArrayList;
     public OnRecyclerViewClickListener mOnclickListenner;
 
     public interface OnRecyclerViewClickListener{
         void onclickListener(int itemClicked);
     }
 
-    public PopularMoviesAdapter(ArrayList allMoviesArrayList, OnRecyclerViewClickListener mOnclickListenner) {
-        this.allMoviesArrayList = allMoviesArrayList;
+    public PopularMoviesAdapter(ArrayList allMoviePojosArrayList, OnRecyclerViewClickListener mOnclickListenner) {
+        this.allMoviePojosArrayList = allMoviePojosArrayList;
         this.mOnclickListenner = mOnclickListenner;
     }
 
@@ -43,7 +38,7 @@ class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.Sin
 
     @Override
     public int getItemCount() {
-        return allMoviesArrayList.size();
+        return allMoviePojosArrayList.size();
     }
 
     @Override
@@ -65,11 +60,11 @@ class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.Sin
 
         public void bind(int position){
             //singleMovieImageView.setText(String.valueOf(arraySize));
-           URL fullPosterPathUrl = (URL) allMoviesArrayList.get(position);
-            Log.v("arraylist", String.valueOf(allMoviesArrayList.size()));
+           String fullPosterPathUrl = allMoviePojosArrayList.get(position).getMovieFullPosterPath();
+            Log.v("arraylist", String.valueOf(allMoviePojosArrayList.size()));
             Log.v("fullPosterPathUrl", fullPosterPathUrl.toString());
             //Picasso.get().load(fullPosterPathUrl.toString()).into(singleMovieImageView);
-            Picasso.get().load(fullPosterPathUrl.toString()).into(singleMovieImageView);
+            Picasso.get().load(fullPosterPathUrl).into(singleMovieImageView);
             //http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
 
         }
