@@ -18,6 +18,11 @@ class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.Sin
     ArrayList<Movie> allMoviePojosArrayList;
     public OnRecyclerViewClickListener mOnclickListenner;
 
+    public void updateMoviesListWithinAdapter(ArrayList moviePojosArrayList) {
+        this.allMoviePojosArrayList = moviePojosArrayList;
+        notifyDataSetChanged();
+    }
+
     public interface OnRecyclerViewClickListener{
         void onclickListener(int itemClicked);
     }
@@ -59,16 +64,10 @@ class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.Sin
         }
 
         public void bind(int position){
-            //singleMovieImageView.setText(String.valueOf(arraySize));
            String fullPosterPathUrl = allMoviePojosArrayList.get(position).getMovieFullPosterPath();
-            Log.v("arraylist", String.valueOf(allMoviePojosArrayList.size()));
-            Log.v("fullPosterPathUrl", fullPosterPathUrl.toString());
-            //Picasso.get().load(fullPosterPathUrl.toString()).into(singleMovieImageView);
             Picasso.get()
                     .load(fullPosterPathUrl)
                     .into(singleMovieImageView);
-            //http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
-
         }
 
         @Override

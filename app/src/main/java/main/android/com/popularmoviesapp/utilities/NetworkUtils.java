@@ -18,7 +18,7 @@ import static android.support.v4.content.ContextCompat.getSystemService;
 
 public class NetworkUtils {
 
-    public static final String TMDB_BASE_URL = "https://api.themoviedb.org/3/movie/popular";
+    public static final String TMDB_BASE_URL = "https://api.themoviedb.org/3/movie/";
     public static final String QUERY_PARAM="api_key";
     public static final String API_KEY="3845e129e7a3c2d4c50bbf74d58550d8";
     /**
@@ -26,8 +26,8 @@ public class NetworkUtils {
      *
      * @return The URL to use to query the GitHub server.
      */
-    public static URL buildUrl() {
-        Uri builtUri = Uri.parse(TMDB_BASE_URL).buildUpon()
+    public static URL buildUrl(String popularOrTopRatedUrl) {
+        Uri builtUri = Uri.parse(TMDB_BASE_URL+popularOrTopRatedUrl).buildUpon()
                 .appendQueryParameter(QUERY_PARAM, API_KEY)
                 //.appendQueryParameter(PARAM_SORT, sortBy)
                 .build();
