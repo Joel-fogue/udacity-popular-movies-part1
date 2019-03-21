@@ -141,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
         @Override
         public void onclickListener(int itemClicked) {
-            //Toast.makeText(getApplicationContext(), "Item click was: "+itemClicked, Toast.LENGTH_SHORT).show();
             Intent movieDetailsIntent = new Intent(MainActivity.this, MovieDetails.class);
             Movie movieClickedOn = (Movie) moviePojosArrayList.get(itemClicked);
             movieDetailsIntent.putExtra(getString(R.string.movieTitle), movieClickedOn.getMovieTitle());
