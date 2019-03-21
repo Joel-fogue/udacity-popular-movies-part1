@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         if (savedInstanceState != null && savedInstanceState.containsKey(getString(R.string.MoviePojosArrayListParcel))) {
-            moviePojosArrayList = savedInstanceState.getParcelableArrayList(String.valueOf(R.string.MoviePojosArrayListParcel));
+            moviePojosArrayList = savedInstanceState.getParcelableArrayList(getString(R.string.MoviePojosArrayListParcel));
         }
         super.onRestoreInstanceState(savedInstanceState);
     }
