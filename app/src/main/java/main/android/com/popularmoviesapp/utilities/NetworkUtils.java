@@ -20,7 +20,7 @@ public class NetworkUtils {
 
     public static final String TMDB_BASE_URL = "https://api.themoviedb.org/3/movie/";
     public static final String QUERY_PARAM="api_key";
-    public static final String API_KEY="3845e129e7a3c2d4c50bbf74d58550d8";
+    public static final String API_KEY="INSERT_API_KEY_HERE";
     /**
      * Builds the URL used to query GitHub.
      *
@@ -29,7 +29,6 @@ public class NetworkUtils {
     public static URL buildUrl(String popularOrTopRatedUrl) {
         Uri builtUri = Uri.parse(TMDB_BASE_URL+popularOrTopRatedUrl).buildUpon()
                 .appendQueryParameter(QUERY_PARAM, API_KEY)
-                //.appendQueryParameter(PARAM_SORT, sortBy)
                 .build();
 
         URL url = null;
@@ -46,7 +45,6 @@ public class NetworkUtils {
         Uri builtUri = Uri.parse("https://image.tmdb.org/t/p/").buildUpon()
                 .appendEncodedPath("w185")
                 .appendEncodedPath(posterPath)
-                //.appendQueryParameter(PARAM_SORT, sortBy)
                 .build();
 
         URL url = null;
@@ -57,7 +55,6 @@ public class NetworkUtils {
         }
         return url;
     }
-
 
     /**
      * This method returns the entire result from the HTTP response.
