@@ -23,7 +23,7 @@ class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.Sin
         notifyDataSetChanged();
     }
 
-    public interface OnRecyclerViewClickListener{
+    public interface OnRecyclerViewClickListener {
         void onclickListener(int itemClicked);
     }
 
@@ -49,10 +49,9 @@ class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.Sin
     @Override
     public void onBindViewHolder(@NonNull SingleMovieViewHolder singleMovieViewHolder, int i) {
         singleMovieViewHolder.bind(i);
-        //Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(singleMovieViewHolder.singleMovieImageView);
     }
 
-    class SingleMovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class SingleMovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ImageView singleMovieImageView;
 
@@ -63,8 +62,8 @@ class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.Sin
             itemView.setOnClickListener(this);
         }
 
-        public void bind(int position){
-           String fullPosterPathUrl = allMoviePojosArrayList.get(position).getMovieFullPosterPath();
+        public void bind(int position) {
+            String fullPosterPathUrl = allMoviePojosArrayList.get(position).getMovieFullPosterPath();
             Picasso.get()
                     .load(fullPosterPathUrl)
                     .into(singleMovieImageView);

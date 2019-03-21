@@ -27,22 +27,21 @@ public class MovieDetails extends AppCompatActivity {
         mMovieVoteAverage = findViewById(R.id.vote_average);
 
         Intent intentThatCreatedThisActivity = getIntent();
-        if(intentThatCreatedThisActivity!=null &&
-            intentThatCreatedThisActivity.hasExtra("movieTitle") &&
-            intentThatCreatedThisActivity.hasExtra("movieReleaseDate") &&
-                intentThatCreatedThisActivity.hasExtra("movieOverview")&&
-                intentThatCreatedThisActivity.hasExtra("movieFullPosterPath")&&
-                intentThatCreatedThisActivity.hasExtra("movieVoteAverage") )
-        {
-            String mMovieTitle = intentThatCreatedThisActivity.getStringExtra("movieTitle");
-            String mMovieReleaseDate = intentThatCreatedThisActivity.getStringExtra("movieReleaseDate");
-            String mMovieOverview = intentThatCreatedThisActivity.getStringExtra("movieOverview");
-            String mMovieFullPosterPath = intentThatCreatedThisActivity.getStringExtra("movieFullPosterPath");
-            String movieVoteAverage = intentThatCreatedThisActivity.getStringExtra("movieVoteAverage");
+        if (intentThatCreatedThisActivity != null &&
+                intentThatCreatedThisActivity.hasExtra(getString(R.string.movieTitle)) &&
+                intentThatCreatedThisActivity.hasExtra(getString(R.string.movieReleaseDate)) &&
+                intentThatCreatedThisActivity.hasExtra(getString(R.string.movieOverview)) &&
+                intentThatCreatedThisActivity.hasExtra(getString(R.string.movieFullPosterPath)) &&
+                intentThatCreatedThisActivity.hasExtra(getString(R.string.movieVoteAverage))) {
+            String mMovieTitle = intentThatCreatedThisActivity.getStringExtra(getString(R.string.movieTitle));
+            String mMovieReleaseDate = intentThatCreatedThisActivity.getStringExtra(getString(R.string.movieReleaseDate));
+            String mMovieOverview = intentThatCreatedThisActivity.getStringExtra(getString(R.string.movieOverview));
+            String mMovieFullPosterPath = intentThatCreatedThisActivity.getStringExtra(getString(R.string.movieFullPosterPath));
+            String movieVoteAverage = intentThatCreatedThisActivity.getStringExtra(getString(R.string.movieVoteAverage));
             mTitle.setText(mMovieTitle);
             mReleaseDate.setText(mMovieReleaseDate);
             mOverview.setText(mMovieOverview);
-            mMovieVoteAverage.setText(movieVoteAverage+"/10");
+            mMovieVoteAverage.setText(movieVoteAverage + getString(R.string.forwardSlashTen));
             Picasso.get()
                     .load(mMovieFullPosterPath)
                     .fit()

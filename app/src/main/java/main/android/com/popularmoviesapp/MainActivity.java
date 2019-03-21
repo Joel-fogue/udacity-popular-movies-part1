@@ -10,10 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -30,19 +28,15 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
     private RecyclerView mRecyclerView;
     private PopularMoviesAdapter mAdapter;
-    int NUMBER_COLUMN_IN_GRID = 2;
+    int NUMBER_COLUMN_IN_GRID = 3;
     JSONArray moviesArray;
     int len;
-    public TextView mContent;
     public ArrayList moviePojosArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState != null && savedInstanceState.containsKey("MoviePojosArrayListParcel")) {
-            moviePojosArrayList = savedInstanceState.getParcelableArrayList("MoviePojosArrayListParcel");
-        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         moviePojosArrayList = new ArrayList<Movie>();
@@ -52,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         // use this setting to improve performance if you know that changes
         //in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
-        URL moviesUrl = NetworkUtils.buildUrl("popular");
+        URL moviesUrl = NetworkUtils.buildUrl(getString(R.string.popular_endpoint));
         //Checking if we got an internet connection prior to making network call
         if (isOnline())
             fetchMoviesUrl(moviesUrl);
@@ -77,19 +71,21 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putParcelableArrayList("MoviePojosArrayListParcel", moviePojosArrayList);
+        if (savedInstanceState != null && savedInstanceState.containsKey(getString(R.string.MoviePojosArrayListParcel))) {
+            moviePojosArrayList = savedInstanceState.getParcelableArrayList(String.valueOf(R.string.MoviePojosArrayListParcel));
+        }
         super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList("MoviePojosArrayListParcel", moviePojosArrayList);
+        outState.putParcelableArrayList(getString(R.string.MoviePojosArrayListParcel), moviePojosArrayList);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onclickListener(int itemClicked) {
-        Toast.makeText(getApplicationContext(), "Item click was: " + itemClicked, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), getString(R.string.ItemClickedWas) + itemClicked, Toast.LENGTH_SHORT).show();
     }
 
     private class DownloadMovieUrlsAsyncTask extends AsyncTask<URL, Void, JSONArray>
@@ -106,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
             JSONArray allMoviesJsonArray = new JSONArray();
             try {
                 JSONObject allMoviesJsonObject = NetworkUtils.getResponseFromHttpUrl(url);
-                allMoviesJsonArray = allMoviesJsonObject.getJSONArray("results");
+                allMoviesJsonArray = allMoviesJsonObject.getJSONArray(getString(R.string.results));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -115,52 +111,31 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
 
         @Override
         protected void onPostExecute(JSONArray allMoviesJsonArray) {
-            Log.v("networkCall", String.valueOf(allMoviesJsonArray.length()));
             moviesArray = allMoviesJsonArray;
             len = allMoviesJsonArray.length();
             for (int i = 0; i < allMoviesJsonArray.length(); i++) {
                 JSONObject singleMovieJsonObject = null;
                 try {
                     singleMovieJsonObject = allMoviesJsonArray.getJSONObject(i);
-                    String movieTitle = singleMovieJsonObject.getString("title");
-                    String movieReleaseDate = singleMovieJsonObject.getString("release_date");
-                    String movieOverview = singleMovieJsonObject.getString("overview");
-                    String posterPath = singleMovieJsonObject.getString("poster_path").split("/")[1];
+                    String movieTitle = singleMovieJsonObject.getString(getString(R.string.title));
+                    String movieReleaseDate = singleMovieJsonObject.getString(getString(R.string.release_date));
+                    String movieOverview = singleMovieJsonObject.getString(getString(R.string.overview));
+                    String posterPath = singleMovieJsonObject.getString(getString(R.string.poster_path)).split(getString(R.string.forward_slash))[1];
                     String fullPosterPath = NetworkUtils.buildPosterPathUrl(posterPath).toString();
-                    String movieVoteAverage = singleMovieJsonObject.getString("vote_average");
+                    String movieVoteAverage = singleMovieJsonObject.getString(getString(R.string.vote_average));
                     Movie aMovie = new Movie(movieTitle, movieReleaseDate, movieOverview, fullPosterPath, movieVoteAverage);
                     moviePojosArrayList.add(aMovie);
-                    Log.v("fullPosterPath", fullPosterPath.toString());
-                    Log.v("ArrayListLength", String.valueOf(moviePojosArrayList.size()));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }//end loop
-
-            Movie someMovie = (Movie) moviePojosArrayList.get(0);
-            String movieTitle = someMovie.getMovieTitle();
-            Log.v("movieTitle", movieTitle);
-            Log.v("allo", "title is:  "+movieTitle+" the size of the list is: "+String.valueOf(moviePojosArrayList.size()));
-
-            if(mAdapter == null && moviePojosArrayList.size() !=0) {
-//                Movie someMovie = (Movie) moviePojosArrayList.get(0);
-//                String movieTitle = someMovie.getMovieTitle();
-//                Log.v("movieTitle", movieTitle);
-
+            if (mAdapter == null && moviePojosArrayList.size() != 0) {
                 //Instantiating our adapter class
                 mAdapter = new PopularMoviesAdapter(moviePojosArrayList, this);
                 mRecyclerView.setAdapter(mAdapter);
-            }else{
-
-//                Movie someMovie = (Movie) moviePojosArrayList.get(0);
-//                String movieTitle = someMovie.getMovieTitle();
-//                Log.v("movieTitle2", movieTitle);
-
-                ArrayList<Movie> updatedMoviesList = new ArrayList<>();
-                updatedMoviesList.addAll(moviePojosArrayList);
-                mAdapter.updateMoviesListWithinAdapter(updatedMoviesList);
+            } else {
+                mAdapter.updateMoviesListWithinAdapter(moviePojosArrayList);
             }
-            //mAdapter.notifyDataSetChanged();
             super.onPostExecute(allMoviesJsonArray);
         }
 
@@ -169,15 +144,14 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
             //Toast.makeText(getApplicationContext(), "Item click was: "+itemClicked, Toast.LENGTH_SHORT).show();
             Intent movieDetailsIntent = new Intent(MainActivity.this, MovieDetails.class);
             Movie movieClickedOn = (Movie) moviePojosArrayList.get(itemClicked);
-            movieDetailsIntent.putExtra("movieTitle", movieClickedOn.getMovieTitle());
-            movieDetailsIntent.putExtra("movieReleaseDate", movieClickedOn.getMovieReleaseDate());
-            movieDetailsIntent.putExtra("movieOverview", movieClickedOn.getMovieOverview());
-            movieDetailsIntent.putExtra("movieFullPosterPath", movieClickedOn.getMovieFullPosterPath());
-            movieDetailsIntent.putExtra("movieVoteAverage", movieClickedOn.getMovieVoteAverage());
+            movieDetailsIntent.putExtra(getString(R.string.movieTitle), movieClickedOn.getMovieTitle());
+            movieDetailsIntent.putExtra(getString(R.string.movieReleaseDate), movieClickedOn.getMovieReleaseDate());
+            movieDetailsIntent.putExtra(getString(R.string.movieOverview), movieClickedOn.getMovieOverview());
+            movieDetailsIntent.putExtra(getString(R.string.movieFullPosterPath), movieClickedOn.getMovieFullPosterPath());
+            movieDetailsIntent.putExtra(getString(R.string.movieVoteAverage), movieClickedOn.getMovieVoteAverage());
             startActivity(movieDetailsIntent);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -194,20 +168,20 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.most_popular) {
-            URL moviesUrl = NetworkUtils.buildUrl("popular");
+            URL moviesUrl = NetworkUtils.buildUrl(getString(R.string.popular_endpoint));
             //Checking if we got an internet connection prior to making network call
-            if (isOnline())
-            Log.v("allo", "Aaaaaaaaaaaaaaaaa "+moviesUrl+" the size of the list is: "+String.valueOf(moviePojosArrayList.size()));
-            moviePojosArrayList.clear();
-            fetchMoviesUrl(moviesUrl);
+            if (isOnline()) {
+                moviePojosArrayList.clear();
+                fetchMoviesUrl(moviesUrl);
+            }
             return true;
         } else if (id == R.id.top_rated) {
-            URL moviesUrl = NetworkUtils.buildUrl("top_rated");
-            Log.v("allo", "Bbbbbbbbbbbbbbbbbbbbbb  "+moviesUrl+" the size of the list is: "+String.valueOf(moviePojosArrayList.size()));
-            moviePojosArrayList.clear();
+            URL moviesUrl = NetworkUtils.buildUrl(getString(R.string.top_rated_endpoint));
             //Checking if we got an internet connection prior to making network call
-            if (isOnline())
-              fetchMoviesUrl(moviesUrl);
+            if (isOnline()) {
+                moviePojosArrayList.clear();
+                fetchMoviesUrl(moviesUrl);
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
