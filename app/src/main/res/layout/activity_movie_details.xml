@@ -1,111 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MovieDetails"
-    tools:layout_editor_absoluteY="25dp">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="137dp"
-        android:background="@android:color/holo_green_dark"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="13dp"
-        android:text="Chappie"
-        android:textColor="#ffffff"
-        android:textSize="34sp"
-        app:fontFamily="sans-serif"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="0dp" />
+        android:layout_height="wrap_content"
+        tools:context=".MovieDetailsActivity">
 
-    <ImageView
-        android:id="@+id/movieDetailPic"
-        android:layout_width="201dp"
-        android:layout_height="262dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:adjustViewBounds="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.047"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="157dp"
+            android:layout_marginBottom="8dp"
+            android:background="@android:color/holo_green_dark"
+            android:gravity="left|center_vertical"
+            android:padding="12dp"
+            android:text="@string/aTitle"
+            android:textColor="#ffffff"
+            android:textSize="34sp"
+            app:fontFamily="sans-serif"
+            app:layout_constraintBottom_toTopOf="@+id/movieDetailPic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/overview"
-        android:layout_width="366dp"
-        android:layout_height="141dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Every child comes into the world full of promise, and none more so than Chappie: he is gifted, special, a prodigy. Chappie he is a robot. "
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movieDetailPic"
-        app:layout_constraintVertical_bias="0.38" />
+        <ImageView
+            android:id="@+id/movieDetailPic"
+            android:layout_width="201dp"
+            android:layout_height="262dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/the_picture_of_a_movie"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.047"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
-    <Button
-        android:id="@+id/favorite"
-        android:layout_width="141dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/holo_green_dark"
-        android:padding="3dp"
-        android:text="MARK AS FAVORITE"
-        android:textAlignment="center"
-        android:textColor="#ffffff"
-        app:layout_constraintBottom_toBottomOf="@+id/movieDetailPic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/movieDetailPic"
-        app:layout_constraintTop_toBottomOf="@+id/vote_average"
-        app:layout_constraintVertical_bias="0.038" />
+        <Button
+            android:id="@+id/favorite"
+            android:layout_width="141dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/holo_green_dark"
+            android:padding="3dp"
+            android:text="@string/mark_as_favorite"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            app:layout_constraintStart_toEndOf="@+id/movieDetailPic"
+            app:layout_constraintTop_toBottomOf="@+id/vote_average" />
 
-    <TextView
-        android:id="@+id/vote_average"
-        android:layout_width="141dp"
-        android:layout_height="26dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:text="8.1/10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/movieDetailPic"
-        app:layout_constraintTop_toBottomOf="@+id/year" />
+        <TextView
+            android:id="@+id/vote_average"
+            android:layout_width="141dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/_8_1_10"
+            app:layout_constraintStart_toEndOf="@+id/movieDetailPic"
+            app:layout_constraintTop_toBottomOf="@+id/year" />
 
-    <!--<TextView-->
-        <!--android:id="@+id/movie_length"-->
-        <!--android:layout_width="141dp"-->
-        <!--android:layout_height="26dp"-->
-        <!--android:layout_marginEnd="16dp"-->
-        <!--android:layout_marginRight="16dp"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:text="TextView"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/year"-->
-        <!--tools:text="120mins" />-->
+        <TextView
+            android:id="@+id/year"
+            android:layout_width="141dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="28dp"
+            android:layout_marginRight="28dp"
+            android:text="@string/_2015"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/movieDetailPic"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
-    <TextView
-        android:id="@+id/year"
-        android:layout_width="141dp"
-        android:layout_height="26dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="2015"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/movieDetailPic"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/overview"
+            android:layout_width="374dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/synopsis"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.486"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieDetailPic"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

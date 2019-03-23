@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-public class MovieDetails extends AppCompatActivity {
+public class MovieDetailsActivity extends AppCompatActivity {
 
 
     public TextView mTitle, mReleaseDate, mOverview, mFavorite, mMovieVoteAverage;

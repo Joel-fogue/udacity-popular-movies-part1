@@ -1,10 +1,7 @@
 package main.android.com.popularmoviesapp;
-
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,24 +10,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.net.URL;
 import java.util.ArrayList;
-
+import main.android.com.popularmoviesapp.AsyncTasks.DownloadMovieUrlsAsyncTask;
 import main.android.com.popularmoviesapp.parcels.Movie;
 import main.android.com.popularmoviesapp.utilities.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity implements PopularMoviesAdapter.OnRecyclerViewClickListener {
 
     private RecyclerView mRecyclerView;
-    private PopularMoviesAdapter mAdapter;
     int NUMBER_COLUMN_IN_GRID = 3;
-    JSONArray moviesArray;
-    int len;
     public ArrayList moviePojosArrayList;
 
     @Override
@@ -66,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     }
 
     public void fetchMoviesUrl(URL url) {
-        new DownloadMovieUrlsAsyncTask().execute(url);
+        new DownloadMovieUrlsAsyncTask(MainActivity.this, moviePojosArrayList, mRecyclerView).execute(url);
     }
 
     @Override
@@ -88,69 +77,6 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
         Toast.makeText(getApplicationContext(), getString(R.string.ItemClickedWas) + itemClicked, Toast.LENGTH_SHORT).show();
     }
 
-    private class DownloadMovieUrlsAsyncTask extends AsyncTask<URL, Void, JSONArray>
-            implements PopularMoviesAdapter.OnRecyclerViewClickListener {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected JSONArray doInBackground(URL... urls) {
-            URL url = urls[0];
-            JSONArray allMoviesJsonArray = new JSONArray();
-            try {
-                JSONObject allMoviesJsonObject = NetworkUtils.getResponseFromHttpUrl(url);
-                allMoviesJsonArray = allMoviesJsonObject.getJSONArray(getString(R.string.results));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return allMoviesJsonArray;
-        }
-
-        @Override
-        protected void onPostExecute(JSONArray allMoviesJsonArray) {
-            moviesArray = allMoviesJsonArray;
-            len = allMoviesJsonArray.length();
-            for (int i = 0; i < allMoviesJsonArray.length(); i++) {
-                JSONObject singleMovieJsonObject = null;
-                try {
-                    singleMovieJsonObject = allMoviesJsonArray.getJSONObject(i);
-                    String movieTitle = singleMovieJsonObject.getString(getString(R.string.title));
-                    String movieReleaseDate = singleMovieJsonObject.getString(getString(R.string.release_date));
-                    String movieOverview = singleMovieJsonObject.getString(getString(R.string.overview));
-                    String posterPath = singleMovieJsonObject.getString(getString(R.string.poster_path)).split(getString(R.string.forward_slash))[1];
-                    String fullPosterPath = NetworkUtils.buildPosterPathUrl(posterPath).toString();
-                    String movieVoteAverage = singleMovieJsonObject.getString(getString(R.string.vote_average));
-                    Movie aMovie = new Movie(movieTitle, movieReleaseDate, movieOverview, fullPosterPath, movieVoteAverage);
-                    moviePojosArrayList.add(aMovie);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }//end loop
-            if (mAdapter == null && moviePojosArrayList.size() != 0) {
-                //Instantiating our adapter class
-                mAdapter = new PopularMoviesAdapter(moviePojosArrayList, this);
-                mRecyclerView.setAdapter(mAdapter);
-            } else {
-                mAdapter.updateMoviesListWithinAdapter(moviePojosArrayList);
-            }
-            super.onPostExecute(allMoviesJsonArray);
-        }
-
-        @Override
-        public void onclickListener(int itemClicked) {
-            Intent movieDetailsIntent = new Intent(MainActivity.this, MovieDetails.class);
-            Movie movieClickedOn = (Movie) moviePojosArrayList.get(itemClicked);
-            movieDetailsIntent.putExtra(getString(R.string.movieTitle), movieClickedOn.getMovieTitle());
-            movieDetailsIntent.putExtra(getString(R.string.movieReleaseDate), movieClickedOn.getMovieReleaseDate());
-            movieDetailsIntent.putExtra(getString(R.string.movieOverview), movieClickedOn.getMovieOverview());
-            movieDetailsIntent.putExtra(getString(R.string.movieFullPosterPath), movieClickedOn.getMovieFullPosterPath());
-            movieDetailsIntent.putExtra(getString(R.string.movieVoteAverage), movieClickedOn.getMovieVoteAverage());
-            startActivity(movieDetailsIntent);
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -19,4 +19,10 @@
     <string name="movieOverview">movieOverview</string>
     <string name="movieFullPosterPath">movieFullPosterPath</string>
     <string name="forwardSlashTen">/10</string>
+    <string name="mark_as_favorite">MARK AS FAVORITE</string>
+    <string name="_8_1_10">8.1/10</string>
+    <string name="_2015">2015</string>
+    <string name="synopsis">Every child comes into the world full of promise, and none more so than Chappie: he is gifted, special, a prodigy. Chappie he is a robot.</string>
+    <string name="the_picture_of_a_movie">The picture of a movie</string>
+    <string name="aTitle">Chappie</string>
 </resources>

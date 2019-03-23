@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import main.android.com.popularmoviesapp.parcels.Movie;
 
-class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.SingleMovieViewHolder> {
+public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.SingleMovieViewHolder> {
     ArrayList<Movie> allMoviePojosArrayList;
     public OnRecyclerViewClickListener mOnclickListenner;
 
