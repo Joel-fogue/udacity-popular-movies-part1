@@ -15,12 +15,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-import static android.support.v4.content.ContextCompat.getSystemService;
+import main.android.com.popularmoviesapp.MainActivity;
+import main.android.com.popularmoviesapp.R;
 
 public class NetworkUtils {
 
-    public static final String TMDB_BASE_URL = "https://api.themoviedb.org/3/movie/";
-    public static final String QUERY_PARAM="api_key";
+    public static final String TMDB_BASE_URL = MainActivity.getContext().getString(R.string.base_url);
+    public static final String QUERY_PARAM=MainActivity.getContext().getString(R.string.api_key);
     //public static final String API_KEY="INSERT_API_KEY_HERE";
     public static final String API_KEY="3845e129e7a3c2d4c50bbf74d58550d8";
     /**
@@ -42,10 +43,10 @@ public class NetworkUtils {
 
         return url;
     }
-    //w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
+
     public static URL buildPosterPathUrl(String posterPath) {
-        Uri builtUri = Uri.parse("https://image.tmdb.org/t/p/").buildUpon()
-                .appendEncodedPath("w185")
+        Uri builtUri = Uri.parse(MainActivity.getContext().getString(R.string.api_authority)).buildUpon()
+                .appendEncodedPath(MainActivity.getContext().getString(R.string.w185))
                 .appendEncodedPath(posterPath)
                 .build();
 

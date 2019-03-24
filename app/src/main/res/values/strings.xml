@@ -25,4 +25,8 @@
     <string name="synopsis">Every child comes into the world full of promise, and none more so than Chappie: he is gifted, special, a prodigy. Chappie he is a robot.</string>
     <string name="the_picture_of_a_movie">The picture of a movie</string>
     <string name="aTitle">Chappie</string>
+    <string name="base_url">https://api.themoviedb.org/3/movie/</string>
+    <string name="api_key">api_key</string>
+    <string name="w185">w185</string>
+    <string name="api_authority">https://image.tmdb.org/t/p/</string>
 </resources>

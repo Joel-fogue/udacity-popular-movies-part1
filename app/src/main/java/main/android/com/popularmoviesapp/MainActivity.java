@@ -22,12 +22,25 @@ public class MainActivity extends AppCompatActivity implements PopularMoviesAdap
     int NUMBER_COLUMN_IN_GRID = 3;
     public ArrayList moviePojosArrayList;
 
+    private static Context context;
+
+    public static void setContext(Context cntxt) {
+        context = cntxt;
+    }
+
+    public static Context getContext() {
+        return context;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // Set Context
+        MainActivity.setContext(getApplicationContext());
+
         moviePojosArrayList = new ArrayList<Movie>();
         mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
         GridLayoutManager layoutManager = new GridLayoutManager(this, NUMBER_COLUMN_IN_GRID, GridLayoutManager.VERTICAL, false);
