@@ -84,6 +84,7 @@
             app:layout_constraintStart_toEndOf="@+id/movieDetailPic"
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
+
         <TextView
             android:id="@+id/overview"
             android:layout_width="374dp"
@@ -91,6 +92,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/synopsis"
+            android:scrollbars = "vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.486"

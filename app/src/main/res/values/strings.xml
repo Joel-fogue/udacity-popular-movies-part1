@@ -29,4 +29,5 @@
     <string name="api_key">api_key</string>
     <string name="w185">w185</string>
     <string name="api_authority">https://image.tmdb.org/t/p/</string>
+    <string name="single_movie_view">Single movie view</string>
 </resources>
